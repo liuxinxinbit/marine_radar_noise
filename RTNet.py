@@ -42,13 +42,7 @@ class RTNet:
     
     def BatchGenerator(self,batch_size=8, image_size=(640, 640, 5), labels=1):#500, 375
         while True:
-            images = np.zeros((batch_size, image_size[0], image_size[1], image_size[2]))
-            truths = np.zeros((batch_size, image_size[0], image_size[1], labels))
-            for i in range(batch_size):
-                train_image,train_label = get_train_data(image_size[2])
-                images[i] = train_image
-                truths[i] = train_label#(np.arange(labels) == train_label[...,None]-1).astype(int) # encode to one-hot-vector
-            print(images.shape,truths.shape)
+            images,truths = get_train_data(image_size[2])
             yield images, truths
             
     def train(self, epochs=10, steps_per_epoch=50,batch_size=32):
@@ -71,7 +65,7 @@ class RTNet:
 
     def build(self, use_cpu=False, print_summary=False):
         inputs = Input(shape=(640, 640, 5))
-            
+                        
         # initial layer
         conv2d_conv0_1 = self.build_conv2D_block(inputs,        filters = self.parameter[0],kernel_size=1,strides=1, block=0, i=0)
         conv2d_conv0   = self.build_conv2D_block(conv2d_conv0_1,filters = self.parameter[0],kernel_size=3,strides=1, block=0, i=1)
@@ -153,6 +147,5 @@ class RTNet:
         output = Conv2DTranspose(filters=1, kernel_size=1, strides=1, activation='sigmoid', padding='same', name='output')(conv2d_deconv0)
             
         self.model = Model(inputs=inputs, outputs=output)
-        self.model.summary()
-        # ~ parallel_model = multi_gpu_model(self.model, gpus=1)
+        # self.model.summary()
         self.model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy', 'mse'])

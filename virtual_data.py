@@ -54,7 +54,7 @@ def get_train_data(data_num):
         train_label = train_image[:,:,0]
         train_image = train_image+get_noise_img_array(640,5)>0
         data[i,:,:,:] = train_image
-        label[i,:,:] = train_label
+        label[i,:,:] = train_label/255
     return data,label
 
 
