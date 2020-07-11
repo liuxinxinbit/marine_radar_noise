@@ -63,6 +63,9 @@ class RTNet:
         conv2d_deconv = Activation(LeakyReLU(alpha=0.1), name='relu_decon{}-{}'.format(block, i))(conv2d)
         return conv2d_deconv
 
+    def my_loss_error(self, y_true, y_pred):
+        return K.sum((K.abs(y_pred - y_true)))
+
     def build(self, use_cpu=False, print_summary=False):
         inputs = Input(shape=(640, 640, 5))
                         
@@ -145,7 +148,7 @@ class RTNet:
 
 
         output = Conv2DTranspose(filters=1, kernel_size=1, strides=1, activation='sigmoid', padding='same', name='output')(conv2d_deconv0)
-            
+        print(output.shape)
         self.model = Model(inputs=inputs, outputs=output)
         # self.model.summary()
-        self.model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy', 'mse'])
+        self.model.compile(optimizer='adam',loss=self.my_loss_error,metrics=['accuracy', 'mse'])

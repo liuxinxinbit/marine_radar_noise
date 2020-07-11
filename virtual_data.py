@@ -12,7 +12,7 @@ def get_noise_img(imagesize):
     for i in range(randint(3,8)):
         x=random.randint(0,imagesize)
         y=random.randint(0,imagesize)
-        cv2.circle(img,(x,y),random.randint(1,5),(255,255,255),-1)
+        cv2.circle(img,(x,y),randint(1,5),(255,255,255),-1)
     return img
 def get_noise_img_array(imagesize,img_num):
     img = np.zeros((imagesize,imagesize,img_num),dtype=np.uint8)
@@ -37,7 +37,7 @@ def get_target_img():
         img_x = np.int(x+v_x*num)
         img_y = np.int(y+v_y*num)
         if max(img_x,img_y)<imagesize[0] and min(img_x,img_y)>=0:
-            cv2.circle(img,(img_x,img_y),radius,(255,255,255),-1)
+            cv2.circle(img,(img_x,img_y),randint(1,5),(255,255,255),-1)
         image[:,:,num] = img
     return image
 def get_target_img_array(imagesize,img_num):
