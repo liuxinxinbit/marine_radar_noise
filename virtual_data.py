@@ -31,12 +31,13 @@ def get_target_img():
     # print(angle, v_x, v_y)
     x=random.randint(0,640)
     y=random.randint(0,640)
+    radius = random.randint(2,8)
     for num in range(5):
         img = np.zeros((imagesize[0],imagesize[1]),dtype=np.uint8)
         img_x = np.int(x+v_x*num)
         img_y = np.int(y+v_y*num)
         if max(img_x,img_y)<imagesize[0] and min(img_x,img_y)>=0:
-            cv2.circle(img,(img_x,img_y),10,(255,255,255),-1)
+            cv2.circle(img,(img_x,img_y),radius,(255,255,255),-1)
         image[:,:,num] = img
     return image
 def get_target_img_array(imagesize,img_num):

@@ -8,8 +8,9 @@ from PIL import Image
 import random
 
 rtnet = RTNet()
-# rtnet.train(epochs=10, steps_per_epoch=1000, batch_size=12)
-# rtnet.save()
+# rtnet.load()
+rtnet.train(epochs=10, steps_per_epoch=500, batch_size=24)
+rtnet.save()
 
 
 rtnet.load()
@@ -18,13 +19,16 @@ for flag in range(500):
     image = images[0,:,:,:]
     label = truths[0,:,:]
     plt.subplot(1, 3, 1)
+    plt.title("label")
     plt.imshow(label)
     prediction = rtnet.predict(image)
 
     plt.subplot(1, 3, 2)
+    plt.title("prediction")
     plt.imshow(prediction[0,:,:,0])
     plt.subplot(1, 3, 3)
-    plt.imshow(image[:,:,0])
-    plt.pause(0.01)
+    plt.title("image")
+    plt.imshow(image[:,:,0])#+image[:,:,1]+image[:,:,2]+image[:,:,3]+image[:,:,4])
+    plt.pause(0.5)
     # plt.clf()
     plt.show()
