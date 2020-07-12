@@ -42,7 +42,7 @@ def get_target_img():
     return image
 def get_target_img_array(imagesize,img_num):
     image = np.zeros((imagesize,imagesize,img_num),dtype=np.uint8)
-    for i in range(random.randint(1,5)):
+    for i in range(random.randint(2,6)):
         image = image + get_target_img()
         # print(i)
     return image
